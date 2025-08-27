@@ -1,0 +1,24 @@
+{
+  "name": "get-activities-by-id-001",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/v1/Activities/20",
+    "headers": {
+      "accept": {
+        "contains": "*/*"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": 20,
+      "title": "Activity 20 wiremock",
+      "dueDate": "2025-08-20T17:32:59.148Z",
+      "completed": false
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "put-activities-001",
+  "request": {
+    "method": "PUT",
+    "urlPathPattern": "/v1/Activities/18",
+    "headers": {
+      "accept": {
+        "contains": "*/*"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ],
+    "jsonBody": {
+      "id": 18,
+      "title": "Wiremock {{jsonPath request.body '$.title'}}",
+      "dueDate": "{{jsonPath request.body '$.dueDate'}}",
+      "completed": true
+    }
+  }
+}
+

@@ -1,0 +1,19 @@
+{
+  "name": "delete-activities-001",
+  "request": {
+    "method": "DELETE",
+    "urlPathPattern": "/v1/Activities/19",
+    "headers": {
+      "accept": {
+        "contains": "*/*"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+

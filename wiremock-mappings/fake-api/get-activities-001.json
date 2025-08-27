@@ -1,0 +1,32 @@
+{
+  "name": "get-activities-001",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/v1/Activities",
+    "headers": {
+      "accept": {
+        "contains": "*/*"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "id": 1,
+        "title": "Activity 1",
+        "dueDate": "2025-08-20T17:32:59.1482561+00:00",
+        "completed": false
+      },
+      {
+        "id": 2,
+        "title": "Activity 2",
+        "dueDate": "2025-08-20T18:32:59.1482586+00:00",
+        "completed": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "post-activities-001",
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/v1/Activities",
+    "headers": {
+      "accept": {
+        "contains": "*/*"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": true,
+        "equalToJson": {
+          "id": 20,
+          "completed": false
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ],
+    "jsonBody": {
+      "id": 20,
+      "title": "Wiremock {{jsonPath request.body '$.title'}}",
+      "dueDate": "{{jsonPath request.body '$.dueDate'}}",
+      "completed": false
+    }
+  }
+}

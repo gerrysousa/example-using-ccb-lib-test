@@ -1,0 +1,1271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>chaintest-cucumber-api</title>
+    <link href="https://cdn.jsdelivr.net/gh/anshooarora/chaintest@976b9706b4d752a6262a041a68a6ea08012e0fcf/cdn/simple/version/chaintest-pkg.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style></style>
+</head>
+
+<body data-bs-theme="dark">
+  <nav class="navbar border-bottom">
+    <div class="container d-flex justify-content-between">
+      <div>
+        <a class="navbar-brand" href="#">ChainTest</a>
+        <span class="ms-3 fs-6">api-tests-cucumber-chaintestreport</span>
+      </div>
+      <div>
+        <span class="badge badge-outline text-lg"><i class="bi bi-hourglass me-1"></i> 3s</span>
+        <span class="badge badge-outline text-lg"><i class="bi bi-clock me-1 text-success"></i> 2025-08-21 05:15:00 PM</span>
+        <span class="badge badge-outline text-lg me-3"><i class="bi bi-clock me-1 text-danger"></i> 2025-08-21 05:15:04 PM</span>
+          <button role="button" id="sys-info" class="btn btn-outline-primary smaller" title="View System Info">
+            <i class="bi bi-pc-display-horizontal"></i></button>
+        <button role="button" id="shortcuts" class="btn btn-outline-primary smaller" title="Shortcuts">
+          <i class="bi bi-info-circle"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="summary" class="container-fluid bg-body-tertiary">
+    <!-- dashboard section -->
+    <div id="dashboard" class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-4">
+            <div class="card card-custom" style="height: 175px">
+              <div class="card-header">
+                Features
+              </div>
+              <div class="card-body d-flex justify-content-center" style="height: 90px;">
+                <div class="chart-view center" style="margin-left: -1rem;">
+                  <canvas id="stats1"></canvas>
+                </div>
+              </div>
+              <div class="card-footer small">
+                <span id="sp1">7</span> Passed,
+                <span id="sf1">0</span> Failed,
+                <span id="ss1">0</span> Skipped
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card card-custom" style="height: 175px">
+              <div class="card-header">
+                Scenarios
+              </div>
+              <div class="card-body d-flex justify-content-center" style="height: 90px;">
+                <div class="chart-view center" style="margin-left: -1rem;">
+                  <canvas id="stats2"></canvas>
+                </div>
+              </div>
+              <div class="card-footer small">
+                <span id="sp2">9</span> Passed,
+                <span id="sf2">0</span> Failed,
+                <span id="ss2">0</span> Skipped
+              </div>
+            </div>
+          </div>
+            <div class="col-4">
+              <div class="card card-custom" style="height: 175px">
+                <div class="card-header">
+                  Steps
+                </div>
+                <div class="card-body d-flex justify-content-center" style="height: 90px;">
+                  <div class="chart-view center" style="margin-left: -1rem;">
+                    <canvas id="stats3"></canvas>
+                  </div>
+                </div>
+                <div class="card-footer small">
+                  <span id="sp3">43</span> Passed,
+                  <span id="sf3">0</span> Failed,
+                  <span id="ss3">0</span> Skipped
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- /dashboard section -->
+
+    <!-- tag section -->
+      <div id="tags" class="container pb-5">
+        <div class="card card-custom">
+          <div class="card-header">
+            Tags
+          </div>
+          <div class="card-body">
+            <table id="tag-summary" class="table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width:65%"></th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Passed</th>
+                  <th scope="col">Failed</th>
+                  <th scope="col">Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td><a href="#" class="secondary tag">@examples</a></td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>50ms</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#" class="secondary tag">@library</a></td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>222ms</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#" class="secondary tag">@envfile</a></td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>2s</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="border-bottom"></div>
+    <!-- /tag section -->
+  </div>
+
+  <div class="container-fluid">
+    <div class="py-3 mb-5">
+      <div class="container d-flex justify-content-between">
+        <div class="input-group">
+          <input type="text" id="q" class="form-control border" placeholder="Search..." aria-label="Search...">
+          <button class="btn border btn-sm text-success status-filter" id="passed" type="button">Passed</button>
+          <button class="btn border btn-sm text-warning status-filter" id="skipped" type="button">Skipped</button>
+          <button class="btn border btn-sm text-danger status-filter" id="failed" type="button">Failed</button>
+          <button id="clear-filters" class="btn border btn-sm"><i class="bi bi-x-lg me-1"></i>Clear all filters</button>
+          <button type="button" id="summary-toggle" class="btn border btn-sm"><i class="bi bi-toggle-on me-1"></i> Toggle Summary Section</button>
+        </div>
+      </div>
+    </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing by environment file</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 2s</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:01 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:03 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@envfile</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Create a new activity with valid data</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@envfile</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">1s</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Sample Activity gen:test.id"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171501074",
+    "dueDate": "2025-08-21T17:15:01.074Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171501074",
+    "dueDate": "2025-08-21T17:15:01.074Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Retrieve an activity by ID</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@envfile</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">1s</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I reset the count of wiremock requests</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "GET" request to "fakeapi.url" endpoint "/v1/Activities/20"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Activity 20"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the API mocks were called</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171502221",
+    "dueDate": "2025-08-21T17:15:02.221Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171502221",
+    "dueDate": "2025-08-21T17:15:02.221Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+---------------------------------- Captured Request ----------------------------
+Request method:	GET
+Request URI:	http://localhost:9090/v1/Activities/20
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 87c62ad8-7c7a-4d35-ae14-5b1205dd64fd
+Matched-Stub-Name: get-activities-by-id-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Activity 20 wiremock",
+    "dueDate": "2025-08-20T17:32:59.148Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing DELETE with Fake API</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 77ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:03 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@library</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Delete an existing activity</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@library</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">67ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "DELETE" request to "fakeapi.url" endpoint "/v1/Activities/19"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504000",
+    "dueDate": "2025-08-21T17:15:04.000Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504000",
+    "dueDate": "2025-08-21T17:15:04.000Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+---------------------------------- Captured Request ----------------------------
+Request method:	DELETE
+Request URI:	http://localhost:9090/v1/Activities/19
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 1d275845-4963-459f-bf62-84e735199930
+Matched-Stub-Name: delete-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing POST with Fake API</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 37ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@library</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Create a new activity with valid data</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@library</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">29ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Sample Activity"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504175",
+    "dueDate": "2025-08-21T17:15:04.175Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504175",
+    "dueDate": "2025-08-21T17:15:04.175Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing GET BY ID with Fake API</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 58ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@library</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Retrieve an activity by ID</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@library</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">45ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "GET" request to "fakeapi.url" endpoint "/v1/Activities/20"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Activity 20"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504082",
+    "dueDate": "2025-08-21T17:15:04.082Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504082",
+    "dueDate": "2025-08-21T17:15:04.082Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+---------------------------------- Captured Request ----------------------------
+Request method:	GET
+Request URI:	http://localhost:9090/v1/Activities/20
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 87c62ad8-7c7a-4d35-ae14-5b1205dd64fd
+Matched-Stub-Name: get-activities-by-id-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Activity 20 wiremock",
+    "dueDate": "2025-08-20T17:32:59.148Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Example of the use of keywords</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 60ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@examples</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Example create a new activity with valid data [COMPACT BETTER]</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@examples</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">21ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Sample Activity"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504268",
+    "dueDate": "2025-08-21T17:15:04.268Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504268",
+    "dueDate": "2025-08-21T17:15:04.268Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Example create a new activity with valid data [AVOID USE MANY KEYWORDS]</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@examples</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">29ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I set the base URL to "fakeapi.url"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I set the request body with JSON file "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "POST" request to endpoint "/v1/Activities"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Sample Activity"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504296",
+    "dueDate": "2025-08-21T17:15:04.296Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504296",
+    "dueDate": "2025-08-21T17:15:04.296Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing PUT with Fake API</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 59ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@library</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Update an existing activity</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@library</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">53ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And I send a "POST" request to "fakeapi.url" endpoint "/v1/Activities" with JSON payload "activity_20.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "PUT" request to "fakeapi.url" endpoint "/v1/Activities/18" with JSON payload "activity_20_update.json"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Sample Activity Updated"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	POST
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 20,
+    "title": "Sample Activity 20250821171504211",
+    "dueDate": "2025-08-21T17:15:04.211Z",
+    "completed": false
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 86fed8fe-c46c-4335-952b-2d5e18425cec
+Matched-Stub-Name: post-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 20,
+    "title": "Wiremock Sample Activity 20250821171504211",
+    "dueDate": "2025-08-21T17:15:04.211Z",
+    "completed": false
+}
+
+--------------------------------------------------------------------------------
+---------------------------------- Captured Request ----------------------------
+Request method:	PUT
+Request URI:	http://localhost:9090/v1/Activities/18
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "id": 18,
+    "title": "Sample Activity Updated",
+    "dueDate": "2025-07-31T20:22:52.527Z",
+    "completed": true
+}
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 7e168290-3bc8-48a6-a7d0-852fd3613051
+Matched-Stub-Name: put-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+{
+    "id": 18,
+    "title": "Wiremock Sample Activity Updated",
+    "dueDate": "2025-07-31T20:22:52.527Z",
+    "completed": true
+}
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div class="border-bottom my-5"></div>
+      </div>
+      <div class="test-container passed">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <h6 class="mb-3 testname fs-6 passed">Feature: Testing GET with Fake API</h6>
+              <div class="small">
+                <span class="badge badge-outline"><i class="bi bi-hourglass me-1"></i> 36ms</span>
+                <span class="badge text-bg-info"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+                <span class="badge text-bg-warning"><i class="bi bi-clock me-1"></i>
+                  2025-08-21 05:15:04 PM</span>
+              </div>
+                <div class="my-2">
+                    <span class="badge rounded-pill text-bg-secondary">@library</span>
+                </div>
+              
+            </div>
+            <div class="col-8">
+                <div class="card mb-3 result passed">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                          <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fs-6 ms-2">Scenario: Retrieve all available activities</span>
+                      </div>
+                      <div>
+                          <span class="tag-list">
+                              <span class="badge rounded-pill text-bg-secondary">@library</span>
+                          </span>
+                          <span class="mx-1">&middot;</span>
+                        <span class="badge text-dark bg-light">28ms</span>
+                      </div>
+                    </div>
+                    
+  <div class="mt-2">
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Given I set the headers</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">When I send a "GET" request to "fakeapi.url" endpoint "/v1/Activities"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">Then the response status code should be "200"</span>
+        </div>
+        <div class="mt-1 pb-1">
+            <i class="bi bi-check-circle-fill text-success"></i>
+          <span class="ms-2">And the response body should contain "Activity 1"</span>
+        </div>
+  </div>
+                      <div class="mt-3">
+                        <pre class="pb-0">
+---------------------------------- Captured Request ----------------------------
+Request method:	GET
+Request URI:	http://localhost:9090/v1/Activities
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+HTTP/1.1 200 OK
+Content-Type: application/json
+Matched-Stub-Id: 48bd4d9b-ce13-404d-abb6-8f68d1129297
+Matched-Stub-Name: get-activities-001
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+
+[
+    {
+        "id": 1,
+        "title": "Activity 1",
+        "dueDate": "2025-08-20T17:32:59.1482561+00:00",
+        "completed": false
+    },
+    {
+        "id": 2,
+        "title": "Activity 2",
+        "dueDate": "2025-08-20T18:32:59.1482586+00:00",
+        "completed": true
+    }
+]
+
+--------------------------------------------------------------------------------
+This is a log message from the Hooks class
+                        </pre>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+          <div class="border-bottom py-5"></div>
+      </div>
+  </div>
+
+  <script>
+    const stats1Annotation = {'total': 7, 'passed': 7};
+    const stats1 = [
+      { result: 'Passed', count: 7, bg: 'rgb(140, 197, 83)' },
+      { result: 'Failed', count: 0, bg: 'rgb(233,80,113)' },
+      { result: 'Skipped', count: 0, bg: 'rgb(13, 202, 240)' }
+    ];
+      const stats2Annotation = {'total': 9, 'passed': 9};
+      const stats2 = [
+        { result: 'Passed', count: 9, bg: 'rgb(140, 197, 83)' },
+        { result: 'Failed', count: 0, bg: 'rgb(233,80,113)' },
+        { result: 'Skipped', count: 0, bg: 'rgb(13, 202, 240)' }
+      ];
+      const stats3Annotation = {'total': 43, 'passed': 43};
+      const stats3 = [
+        { result: 'Passed', count: 43, bg: 'rgb(140, 197, 83)' },
+        { result: 'Failed', count: 0, bg: 'rgb(233,80,113)' },
+        { result: 'Skipped', count: 0, bg: 'rgb(13, 202, 240)' }
+      ];
+     
+  </script>
+    <script src="https://cdn.jsdelivr.net/gh/anshooarora/chaintest@976b9706b4d752a6262a041a68a6ea08012e0fcf/cdn/simple/version/chaintest-pkg.js"></script>
+
+    <div id="sys-info-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title">System</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              onclick="toggleSysInfo(false)"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <tbody>
+                  <tr>
+                    <td>java.version</td>
+                    <td>21.0.8</td>
+                  </tr>
+                  <tr>
+                    <td>java.vm.name</td>
+                    <td>OpenJDK 64-Bit Server VM</td>
+                  </tr>
+                  <tr>
+                    <td>java.vm.vendor</td>
+                    <td>Ubuntu</td>
+                  </tr>
+                  <tr>
+                    <td>java.class.version</td>
+                    <td>65.0</td>
+                  </tr>
+                  <tr>
+                    <td>java.runtime.name</td>
+                    <td>OpenJDK Runtime Environment</td>
+                  </tr>
+                  <tr>
+                    <td>os.name</td>
+                    <td>Linux</td>
+                  </tr>
+                  <tr>
+                    <td>os.arch</td>
+                    <td>amd64</td>
+                  </tr>
+                  <tr>
+                    <td>os.version</td>
+                    <td>6.14.0-28-generic</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              onclick="toggleSysInfo(false)">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div id="info-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">ChainTest Simple Generator - Shortcuts</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            onclick="toggleInfoModal(false)"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tbody>
+                <tr>
+                  <td>p</td>
+                  <td>Toggle passed tests</td>
+                </tr>
+                <tr>
+                  <td>s</td>
+                  <td>Toggle skipped tests</td>
+                </tr>
+                <tr>
+                  <td>L</td>
+                  <td>Toggle theme (light/dark)</td>
+                </tr>
+                <tr>
+                  <td>esc</td>
+                  <td>Reset all filters</td>
+                </tr>
+                <tr>
+                  <td>f</td>
+                  <td>Toggle failed tests</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            onclick="toggleInfoModal(false)">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="attachment-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Attachment</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            onclick="toggleAttachmentModal(false)"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            onclick="toggleAttachmentModal(false)">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
